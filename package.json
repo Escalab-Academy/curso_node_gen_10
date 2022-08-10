@@ -1,0 +1,21 @@
+{
+  "name": "curso-node",
+  "version": "0.1.0",
+  "description": "Curso de node.js de escalab",
+  "main": "src/index.js",
+  "scripts": {
+    "service": "node -r dotenv/config src/index.js",
+    "express": "nodemon -r dotenv/config src/expressExample/index.js",
+    "http": "nodemon -r dotenv/config src/httpExample/index.js"
+  },
+  "author": "AnthonyLzq",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^16.0.1",
+    "nodemon": "^2.0.19"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "morgan": "^1.10.0"
+  }
+}
