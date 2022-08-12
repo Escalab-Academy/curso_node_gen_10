@@ -14,3 +14,17 @@ Content-Type: application/json
   "name": "Caleb",
   "email": "caleb.parra@gmail.com"
 }
+
+###
+DELETE http://localhost:2000/user/OzZ_pmECAJVa9G88jRKoc
+
+###
+PATCH http://localhost:2000/user/AuHpphzpIS1-v29RbgwGp
+Content-Type: application/json
+
+{
+  "email": "steve.luzquinos@gmail.com"
+}
+
+###
+GET http://localhost:2000/api/docs

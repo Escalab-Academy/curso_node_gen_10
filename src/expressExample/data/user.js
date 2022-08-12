@@ -1,8 +1,8 @@
-// const { nanoid } = require('nanoid')
+const { nanoid } = require('nanoid')
 
 const users = [
   {
-    id: 'abc',
+    id: nanoid(),
     name: 'Anthony',
     email: 'anthony.luzquinos@gmail.com'
   }

@@ -1,7 +1,8 @@
 const express = require('express')
 const morgan = require('morgan')
 
-const { userRouter } = require('./routes')
+const { routes: { userRouter } } = require('./network')
+const response = require('./network/routes/response')
 
 const app = express()
 const PORT = process.env.PORT
@@ -13,35 +14,13 @@ app.use(express.json())
 app.use(morgan('dev'))
 app.use(userRouter)
 
-const fooMiddleware = (req, res, next) => {
-  req.foo = 'bar'
-  next()
-}
-
-app.get(
-  '/',
-  fooMiddleware,
-  (req, res) => {
-    console.log('req.foo', req.foo)
-    res.send({
-      message: 'Hola mundo desde Express!',
-      method: 'GET',
-      foo: req.foo
-    })
-  }
-)
-
-app.post(
-  '/',
-  (req, res) => {
-    console.log('req.foo', req.foo)
-    res.send({
-      message: 'Hola mundo desde Express!',
-      method: 'POST',
-      foo: req.foo
-    })
-  }
-)
+app.use((req, res) => {
+  response({
+    message: 'This route does not exists',
+    res,
+    status: 404
+  })
+})
 
 app.listen(PORT, () => {
   console.log(`Server running at port ${PORT}`)
