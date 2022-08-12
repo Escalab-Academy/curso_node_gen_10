@@ -2,3 +2,15 @@ GET http://localhost:2000/
 
 ###
 POST http://localhost:2000/
+
+###
+GET http://localhost:2000/user
+
+###
+POST http://localhost:2000/user
+Content-Type: application/json
+
+{
+  "name": "Caleb",
+  "email": "caleb.parra@gmail.com"
+}
