@@ -16,14 +16,14 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:2000/user/OzZ_pmECAJVa9G88jRKoc
+DELETE http://localhost:2000/user/WOqvbXh27H4cNDKdiYnis
 
 ###
-PATCH http://localhost:2000/user/AuHpphzpIS1-v29RbgwGp
+PATCH http://localhost:2000/user/csg-FFPXgvrcy3GKbvntC
 Content-Type: application/json
 
 {
-  "email": "steve.luzquinos@gmail.com"
+  "email": "c.parra@gmail.com"
 }
 
 ###
