@@ -26,9 +26,12 @@ Content-Type: application/json
 }
 
 ### Save a url
-POST http://localhost:2000/url
+POST http://localhost:2000/url/y_omIXwPabKD8nwrmD0X_
 Content-Type: application/json
 
 {
   "link": "https://www.linkedin.com/feed/update/urn:li:share:6965311557555646464?utm_source=linkedin_share&utm_medium=member_desktop_share&utm_content=post"
 }
+
+### Get url
+GET http://localhost:2000/url/ns1gn_

@@ -1,17 +1,19 @@
 const { Router } = require('express')
-const { nanoid } = require('nanoid')
-const { mongo: { queries } } = require('../../database')
+const { UrlService } = require('../../services')
 
 const response = require('./response')
-const { url: { saveUrl, getOneUrl } } = queries
 const UrlRouter = Router()
 
-UrlRouter.route('/url')
+UrlRouter.route('/url/:userId')
   .post(async (req, res) => {
-    const { body: { link } } = req
+    const {
+      body: { link },
+      params: { userId }
+    } = req
+    const urlService = new UrlService({ link, userId })
 
     try {
-      const result = await saveUrl(nanoid(6), link)
+      const result = await urlService.saveUrl()
 
       response({
         error: false,
@@ -30,7 +32,8 @@ UrlRouter.route('/url/:id')
     const { params: { id } } = req
 
     try {
-      const url = await getOneUrl(id)
+      const urlService = new UrlService({ id })
+      const url = await urlService.getUrl()
 
       res.redirect(url.link)
     } catch (error) {
