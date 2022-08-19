@@ -1,74 +1,84 @@
 const { Router } = require('express')
 const { nanoid } = require('nanoid')
 
-const users = require('../../data/user')
+const { mongo: { queries } } = require('../../database')
 const response = require('./response')
 
-// CRUD
-/**
- * C - CREATE - POST ✅
- * R - READ - GET ✅
- * U - UPDATE - PUT, PATCH ✅
- * D - DELETE - DELETE ✅
- */
 const UserRouter = Router()
+const {
+  user: {
+    getAllUsers,
+    saveUser,
+    removeOneUser,
+    updateOneUser,
+    getOneUser
+  }
+} = queries
 
-// APIs: síncronas y asíncronas
-// Sync: RECIBEN INFO - PROCESAN INFO - RETORNAN INFO
-// Async: RECIBEN INFO - RETORNAN INFO
-//            |-> PROCESAR INFO
-
-// http://localhost:3000/user
 UserRouter.route('/user')
-  .get((req, res) => {
-    response({ error: false, message: users, res, status: 200 })
-  })
-  .post((req, res) => {
-    const { body: { name, email } } = req
+  .get(async (req, res) => {
+    try {
+      const users = await getAllUsers()
 
-    users.push({
-      id: nanoid(),
-      name,
-      email
-    })
-    response({ error: false, message: users, res, status: 201 })
+      response({ error: false, message: users, res, status: 200 })
+    } catch (error) {
+      console.error(error)
+      response({ message: 'Internal server error', res })
+    }
+  })
+  .post(async (req, res) => {
+    try {
+      const { body: { name, lastName, email } } = req
+
+      await saveUser({
+        id: nanoid(),
+        name,
+        lastName,
+        email
+      })
+      response({ error: false, message: await getAllUsers(), res, status: 201 })
+    } catch (error) {
+      console.error(error)
+      response({ message: 'Internal server error', res })
+    }
   })
 
 UserRouter.route('/user/:id')
-  .delete((req, res) => {
-    const { params: { id } } = req
-    const userIndex = users.findIndex(user => user.id === id)
+  .get(async (req, res) => {
+    try {
+      const { params: { id } } = req
+      const user = await getOneUser(id)
 
-    if (userIndex === -1)
-      return response({
-        message: `User with id: ${id} was not found`,
-        res,
-        status: 404
-      })
-
-    users.splice(userIndex, 1)
-    response({ error: false, message: users, res, status: 200 })
+      response({ error: false, message: user, res, status: 200 })
+    } catch (error) {
+      console.error(error)
+      response({ message: 'Internal server error', res })
+    }
   })
-  .patch((req, res) => {
+  .delete(async (req, res) => {
+    try {
+      const { params: { id } } = req
+
+      await removeOneUser(id)
+      response({ error: false, message: await getAllUsers(), res, status: 200 })
+    } catch (error) {
+      console.error(error)
+      response({ message: 'Internal server error', res })
+    }
+  })
+  .patch(async (req, res) => {
     const {
-      body: { name, email },
+      body: { name, lastName, email  },
       params: { id }
     } = req
-    const userIndex = users.findIndex(user => user.id === id)
 
-    if (userIndex === -1)
-      return response({
-        message: `User with id: ${id} was not found`,
-        res,
-        status: 404
-      })
-
-    users.splice(userIndex, 1, {
-      ...users[userIndex],
-      ...(name && { name }),
-      ...(email && { email })
-    })
-    response({ error: false, message: users, res, status: 200 })
+    try {
+      await updateOneUser({ id, name, lastName, email })
+      response({ error: false, message: await getAllUsers(), res, status: 200 })
+    } catch (error) {
+      console.error(error)
+      response({ message: 'Internal server error', res })
+    }
   })
 
 module.exports = UserRouter
