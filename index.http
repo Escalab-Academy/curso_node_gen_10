@@ -1,28 +1,28 @@
 ### Get all user
-GET http://localhost:2000/user
+GET http://localhost:2000/api/user
 
 ### Get one user
-GET http://localhost:2000/user/_5CDY7RwzdIK0iZG803S2
+GET http://localhost:2000/api/user/x
 
 ### Save a new user
-POST http://localhost:2000/user
+POST http://localhost:2000/api/user
 Content-Type: application/json
 
 {
   "name": "Kevin",
   "lastName": "Araneda",
-  "email": "k"
+  "email": "a"
 }
 
 ### Delete a user by id
-DELETE http://localhost:2000/user/0t6zC4Oph5t5ezyi_MPA-
+DELETE http://localhost:2000/api/user/eTsCwFmJLTOb5-DCj_6Sd
 
 ### Update a user by id
-PATCH http://localhost:2000/user/y_omIXwPabKD8nwrmD0X_
+PATCH http://localhost:2000/api/user/56IMXtKwbHqbi8KCUB9cv
 Content-Type: application/json
 
 {
-  "email": "c.parra@gmail.com"
+  "email": "k.araneda@gmail.com"
 }
 
 ### Save a url
@@ -34,7 +34,7 @@ Content-Type: application/json
 }
 
 ### Get url
-GET http://localhost:2000/url/ns1gn_
+GET http://localhost:2000/api/url/ns1gn_
 
 ### 404 error
 GET http://localhost:2000/route/that/does/not/exists
