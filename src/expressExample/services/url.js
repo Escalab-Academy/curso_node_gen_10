@@ -1,3 +1,4 @@
+const httpErrors = require('http-errors')
 const { nanoid } = require('nanoid')
 
 const UserService = require('./user')
@@ -25,7 +26,7 @@ class UrlService {
 
   async saveUrl() {
     if (!this.#userId)
-      throw new Error('Missing required field: userId')
+      throw new httpErrors.BadRequest('Missing required field: userId')
 
     const userService = new UserService(this.#userId)
     const foundUser = await userService.verifyUserExists()
@@ -41,12 +42,12 @@ class UrlService {
 
   async getUrl() {
     if (!this.#id)
-      throw new Error('Missing required field: id')
+      throw new httpErrors.BadRequest('Missing required field: id')
 
     const foundUrl = await getOneUrl(this.#id)
 
     if (!foundUrl)
-      throw new Error('Url not found')
+      throw new httpErrors.NotFound('Url not found')
 
     return foundUrl
   }

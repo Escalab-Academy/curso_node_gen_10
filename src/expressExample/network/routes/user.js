@@ -16,17 +16,16 @@ const {
 } = queries
 
 UserRouter.route('/user')
-  .get(async (req, res) => {
+  .get(async (req, res, next) => {
     try {
       const users = await getAllUsers()
 
       response({ error: false, message: users, res, status: 200 })
     } catch (error) {
-      console.error(error)
-      response({ message: 'Internal server error', res })
+      next(error)
     }
   })
-  .post(async (req, res) => {
+  .post(async (req, res, next) => {
     try {
       const { body: { name, lastName, email } } = req
 
@@ -38,35 +37,32 @@ UserRouter.route('/user')
       })
       response({ error: false, message: await getAllUsers(), res, status: 201 })
     } catch (error) {
-      console.error(error)
-      response({ message: 'Internal server error', res })
+      next(error)
     }
   })
 
 UserRouter.route('/user/:id')
-  .get(async (req, res) => {
+  .get(async (req, res, next) => {
     try {
       const { params: { id } } = req
       const user = await getOneUser(id)
 
       response({ error: false, message: user, res, status: 200 })
     } catch (error) {
-      console.error(error)
-      response({ message: 'Internal server error', res })
+      next(error)
     }
   })
-  .delete(async (req, res) => {
+  .delete(async (req, res, next) => {
     try {
       const { params: { id } } = req
 
       await removeOneUser(id)
       response({ error: false, message: await getAllUsers(), res, status: 200 })
     } catch (error) {
-      console.error(error)
-      response({ message: 'Internal server error', res })
+      next(error)
     }
   })
-  .patch(async (req, res) => {
+  .patch(async (req, res, next) => {
     const {
       body: { name, lastName, email  },
       params: { id }
@@ -76,8 +72,7 @@ UserRouter.route('/user/:id')
       await updateOneUser({ id, name, lastName, email })
       response({ error: false, message: await getAllUsers(), res, status: 200 })
     } catch (error) {
-      console.error(error)
-      response({ message: 'Internal server error', res })
+      next(error)
     }
   })
 

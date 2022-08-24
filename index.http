@@ -9,9 +9,9 @@ POST http://localhost:2000/user
 Content-Type: application/json
 
 {
-  "name": "Anthony",
-  "lastName": "Luzquiños",
-  "email": "anthony.luzquinos@gmail.com"
+  "name": "Kevin",
+  "lastName": "Araneda",
+  "email": "k"
 }
 
 ### Delete a user by id
@@ -26,7 +26,7 @@ Content-Type: application/json
 }
 
 ### Save a url
-POST http://localhost:2000/url/y_omIXwPabKD8nwrmD0X_
+POST http://localhost:2000/api/url/
 Content-Type: application/json
 
 {
@@ -35,3 +35,6 @@ Content-Type: application/json
 
 ### Get url
 GET http://localhost:2000/url/ns1gn_
+
+### 404 error
+GET http://localhost:2000/route/that/does/not/exists

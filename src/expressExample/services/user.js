@@ -1,3 +1,4 @@
+const httpErrors = require('http-errors')
 const { mongo: { queries } } = require('../database')
 const { user: { getOneUser } } = queries
 
@@ -13,11 +14,11 @@ class UserService {
 
   async verifyUserExists() {
     if (!this.#userId)
-      throw new Error('Missing required field: userId')
+      throw new httpErrors.BadRequest('Missing required field: userId')
 
     const user = await getOneUser(this.#userId)
 
-    if (!user) throw new Error('User not found')
+    if (!user) throw new httpErrors.NotFound('User not found')
 
     return user
   }

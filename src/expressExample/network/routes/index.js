@@ -1,4 +1,5 @@
 module.exports = {
   userRouter: require('./user'),
-  urlRouter: require('./url')
+  urlRouter: require('./url'),
+  response: require('./response')
 }
