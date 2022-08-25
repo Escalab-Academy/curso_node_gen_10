@@ -9,26 +9,22 @@ const {
   }
 } = require('../../schemas')
 const { validatorCompiler } = require('./utils')
-const { mongo: { queries } } = require('../../database')
 const response = require('./response')
+const { UserService } = require('../../services')
 
 const UserRouter = Router()
-const {
-  user: {
-    getAllUsers,
-    saveUser,
-    removeOneUser,
-    updateOneUser,
-    getOneUser
-  }
-} = queries
 
 UserRouter.route('/user')
   .get(async (req, res, next) => {
     try {
-      const users = await getAllUsers()
+      const userService = new UserService()
 
-      response({ error: false, message: users, res, status: 200 })
+      response({
+        error: false,
+        message: await userService.getAllUsers(),
+        res,
+        status: 200
+      })
     } catch (error) {
       next(error)
     }
@@ -39,13 +35,12 @@ UserRouter.route('/user')
       try {
         const { body: { name, lastName, email } } = req
 
-        await saveUser({
-          id: nanoid(),
-          name,
-          lastName,
-          email
+        response({
+          error: false,
+          message: await new UserService({ name, lastName, email }).saveUser(),
+          res,
+          status: 201
         })
-        response({ error: false, message: await getAllUsers(), res, status: 201 })
       } catch (error) {
         next(error)
       }
@@ -57,10 +52,19 @@ UserRouter.route('/user/:id')
     validatorCompiler(userIDSchema, 'params'),
     async (req, res, next) => {
       try {
-        const { params: { id } } = req
-        const user = await getOneUser(id)
+        const {
+          params: {
+            id: userId
+          }
+        } = req
+        const userService = new UserService({ userId })
 
-        response({ error: false, message: user, res, status: 200 })
+        response({
+          error: false,
+          message: await userService.getUserByID(),
+          res,
+          status: 200
+        })
       } catch (error) {
         next(error)
       }
@@ -71,9 +75,14 @@ UserRouter.route('/user/:id')
     async (req, res, next) => {
       try {
         const { params: { id } } = req
+        const userService = new UserService({ userId: id })
 
-        await removeOneUser(id)
-        response({ error: false, message: await getAllUsers(), res, status: 200 })
+        response({
+          error: false,
+          message: await userService.removeUserByID(),
+          res,
+          status: 200
+        })
       } catch (error) {
         next(error)
       }
@@ -85,12 +94,16 @@ UserRouter.route('/user/:id')
     async (req, res, next) => {
       const {
         body: { name, lastName, email  },
-        params: { id }
+        params: { id: userId }
       } = req
 
       try {
-        await updateOneUser({ id, name, lastName, email })
-        response({ error: false, message: await getAllUsers(), res, status: 200 })
+        response({
+          error: false,
+          message: await new UserService({ userId, name, lastName, email }).updateOneUser(),
+          res,
+          status: 200
+        })
       } catch (error) {
         next(error)
       }

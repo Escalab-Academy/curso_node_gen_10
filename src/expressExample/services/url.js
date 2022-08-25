@@ -17,7 +17,7 @@ class UrlService {
    * @param {String|undefined} args.userId
    */
   constructor(args) {
-    const { id = '', link = '', userId = ''} = args
+    const { id = '', link = '', userId = '' } = args
 
     this.#id = id
     this.#link = link

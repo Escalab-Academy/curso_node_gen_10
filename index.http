@@ -2,27 +2,27 @@
 GET http://localhost:2000/api/user
 
 ### Get one user
-GET http://localhost:2000/api/user/x
+GET http://localhost:2000/api/user/56IMXtKwbHqbi8KCUB9cv
 
 ### Save a new user
 POST http://localhost:2000/api/user
 Content-Type: application/json
 
 {
-  "name": "Kevin",
-  "lastName": "Araneda",
-  "email": "a"
+  "name": "Luis",
+  "lastName": "Ardila",
+  "email": "luis.ardila@gmail.com"
 }
 
 ### Delete a user by id
-DELETE http://localhost:2000/api/user/eTsCwFmJLTOb5-DCj_6Sd
+DELETE http://localhost:2000/api/user/56IMXtKwbHqbi8KCUB9cv
 
 ### Update a user by id
-PATCH http://localhost:2000/api/user/56IMXtKwbHqbi8KCUB9cv
+PATCH http://localhost:2000/api/user/y_omIXwPabKD8nwrmD0X_
 Content-Type: application/json
 
 {
-  "email": "k.araneda@gmail.com"
+  "email": "caleb.parra@gmail.com"
 }
 
 ### Save a url
