@@ -5,17 +5,18 @@ GET http://localhost:2000/api/user
 GET http://localhost:2000/api/user/56IMXtKwbHqbi8KCUB9cv
 
 ### Save a new user
-POST http://localhost:2000/api/user
+POST http://localhost:2000/api/user/singup
 Content-Type: application/json
 
 {
   "name": "Luis",
   "lastName": "Ardila",
-  "email": "luis.ardila@gmail.com"
+  "email": "luis.ardila@gmail.com",
+  "password": "salkfjsdlakjfldas;jfdlsafiuhewirfh"
 }
 
 ### Delete a user by id
-DELETE http://localhost:2000/api/user/56IMXtKwbHqbi8KCUB9cv
+DELETE http://localhost:2000/api/user/y_omIXwPabKD8nwrmD0X_
 
 ### Update a user by id
 PATCH http://localhost:2000/api/user/y_omIXwPabKD8nwrmD0X_
@@ -38,3 +39,12 @@ GET http://localhost:2000/api/url/ns1gn_
 
 ### 404 error
 GET http://localhost:2000/route/that/does/not/exists
+
+### Login
+POST http://localhost:2000/api/user/login
+Content-Type: application/json
+
+{
+  "email": "luis.ardila@gmail.com",
+  "password": "salkfjsdlakjfldas;jfdlsafiuhewirfh"
+}

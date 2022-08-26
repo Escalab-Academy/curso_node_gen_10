@@ -5,7 +5,17 @@ const {
   mongo: { queries }
 } = require('../database')
 const {
-  user: { getUserByID, saveUser, getAllUsers, removeUserByID, updateOneUser }
+  hash: { hashString }
+} = require('../utils')
+const {
+  user: {
+    getUserByID,
+    saveUser,
+    getAllUsers,
+    removeUserByID,
+    updateOneUser,
+    getOneUser
+  }
 } = queries
 
 class UserService {
@@ -13,6 +23,7 @@ class UserService {
   #name
   #lastName
   #email
+  #password
 
   /**
    * @param {Object} args
@@ -20,14 +31,22 @@ class UserService {
    * @param {String} args.name
    * @param {String} args.lastName
    * @param {String} args.email
+   * @param {String} args.password
    */
-  constructor(args) {
-    const { userId = '', name = '', lastName = '', email = '' } = args
+  constructor(args = {}) {
+    const {
+      userId = '',
+      name = '',
+      lastName = '',
+      email = '',
+      password = ''
+    } = args
 
     this.#userId = userId
     this.#name = name
     this.#lastName = lastName
     this.#email = email
+    this.#password = password
   }
 
   async verifyUserExists() {
@@ -51,11 +70,18 @@ class UserService {
     if (!this.#email)
       throw new httpErrors.BadRequest('Missing required field: email')
 
+    if (!this.#password)
+      throw new httpErrors.BadRequest('Missing required field: password')
+
+    const { salt, result: hash } = hashString(this.#password)
+
     await saveUser({
       id: nanoid(),
       name: this.#name,
       lastName: this.#lastName,
-      email: this.#email
+      email: this.#email,
+      salt,
+      hash
     })
 
     return await getAllUsers()
@@ -93,12 +119,42 @@ class UserService {
     if (!this.#userId)
       throw new httpErrors.BadRequest('Missing required field: userId')
 
+    const updatePassword = !!this.#password
+    const aux = {}
+
+    if (updatePassword) {
+      const { salt, result: hash } = hashString(this.#password)
+
+      aux.salt = salt
+      aux.hash = hash
+    }
+
     return await updateOneUser({
       id: this.#userId,
       name: this.#name,
       lastName: this.#lastName,
-      email: this.#email
+      email: this.#email,
+      ...aux
     })
+  }
+
+  async login() {
+    if (!this.#email)
+      throw new httpErrors.BadRequest('Missing required field: email')
+
+    if (!this.#password)
+      throw new httpErrors.BadRequest('Missing required field: password')
+
+    const user = await getOneUser({ email: this.#email })
+
+    if (!user) throw new httpErrors.BadRequest('Bad credentials')
+
+    const { salt, hash } = user
+    const { result } = hashString(this.#password, salt)
+
+    if (hash !== result) throw new httpErrors.BadRequest('Bad credentials')
+
+    return true
   }
 }
 

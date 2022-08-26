@@ -1,7 +1,7 @@
 const { Router } = require('express')
 
 const {
-  user: { storeUserSchema, updateUserSchema, userIDSchema }
+  user: { storeUserSchema, updateUserSchema, userIDSchema, userLoginSchema }
 } = require('../../schemas')
 const { validatorCompiler } = require('./utils')
 const response = require('./response')
@@ -9,37 +9,68 @@ const { UserService } = require('../../services')
 
 const UserRouter = Router()
 
-UserRouter.route('/user')
-  .get(async (req, res, next) => {
-    try {
-      const userService = new UserService()
+UserRouter.route('/user').get(async (req, res, next) => {
+  try {
+    const userService = new UserService()
 
-      response({
-        error: false,
-        message: await userService.getAllUsers(),
-        res,
-        status: 200
-      })
-    } catch (error) {
-      next(error)
-    }
-  })
-  .post(validatorCompiler(storeUserSchema, 'body'), async (req, res, next) => {
+    response({
+      error: false,
+      message: await userService.getAllUsers(),
+      res,
+      status: 200
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+UserRouter.route('/user/signup').post(
+  validatorCompiler(storeUserSchema, 'body'),
+  async (req, res, next) => {
     try {
       const {
-        body: { name, lastName, email }
+        body: { name, lastName, email, password }
       } = req
 
       response({
         error: false,
-        message: await new UserService({ name, lastName, email }).saveUser(),
+        message: await new UserService({
+          name,
+          lastName,
+          email,
+          password
+        }).saveUser(),
         res,
         status: 201
       })
     } catch (error) {
       next(error)
     }
-  })
+  }
+)
+
+UserRouter.route('/user/login').post(
+  validatorCompiler(userLoginSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const {
+        body: { email, password }
+      } = req
+
+      response({
+        error: false,
+        message: await new UserService({
+          email,
+          password
+        }).login(),
+        res,
+        status: 200
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+)
 
 UserRouter.route('/user/:id')
   .get(validatorCompiler(userIDSchema, 'params'), async (req, res, next) => {
@@ -81,7 +112,7 @@ UserRouter.route('/user/:id')
     validatorCompiler(updateUserSchema, 'body'),
     async (req, res, next) => {
       const {
-        body: { name, lastName, email },
+        body: { name, lastName, email, password },
         params: { id: userId }
       } = req
 
@@ -92,7 +123,8 @@ UserRouter.route('/user/:id')
             userId,
             name,
             lastName,
-            email
+            email,
+            password
           }).updateOneUser(),
           res,
           status: 200
