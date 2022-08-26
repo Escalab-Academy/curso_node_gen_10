@@ -6,13 +6,23 @@
   "scripts": {
     "service": "node -r dotenv/config src/index.js",
     "express": "nodemon -r dotenv/config src/expressExample/index.js",
-    "http": "nodemon -r dotenv/config src/httpExample/index.js"
+    "http": "nodemon -r dotenv/config src/httpExample/index.js",
+    "lint": "npx eslint --fix ./src/expressExample"
   },
   "author": "AnthonyLzq",
   "license": "ISC",
   "devDependencies": {
     "dotenv": "^16.0.1",
-    "nodemon": "^2.0.19"
+    "eslint": "^8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.1",
+    "nodemon": "^2.0.19",
+    "prettier": "^2.7.1"
   },
   "dependencies": {
     "@sinclair/typebox": "^0.24.28",

@@ -1,15 +1,11 @@
 const httpErrors = require('http-errors')
 const { nanoid } = require('nanoid')
 
-const { mongo: { queries } } = require('../database')
 const {
-  user: {
-    getUserByID,
-    saveUser,
-    getAllUsers,
-    removeUserByID,
-    updateOneUser
-  }
+  mongo: { queries }
+} = require('../database')
+const {
+  user: { getUserByID, saveUser, getAllUsers, removeUserByID, updateOneUser }
 } = queries
 
 class UserService {
