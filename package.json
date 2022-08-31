@@ -13,6 +13,7 @@
   "author": "AnthonyLzq",
   "license": "ISC",
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.9",
     "dotenv": "^16.0.1",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
@@ -31,6 +32,7 @@
     "ajv-formats": "^2.1.1",
     "express": "^4.18.1",
     "http-errors": "^2.0.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.2",
     "morgan": "^1.10.0",
     "nanoid": "^3.3.4"

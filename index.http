@@ -1,5 +1,6 @@
 ### Get all user
 GET http://localhost:2000/api/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1aXMuYXJkaWxhQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic2Fsa2Zqc2RsYWtqZmxkYXM7amZkbHNhZml1aGV3aXJmaCIsImlhdCI6MTY2MTkwOTI1MCwiZXhwIjoxNjYxOTA5MzcwfQ.yHeS9SzEEgSe_xxXnRs4GwO5Q5cbeZxVGQveOt9yLKg
 
 ### Get one user
 GET http://localhost:2000/api/user/56IMXtKwbHqbi8KCUB9cv
