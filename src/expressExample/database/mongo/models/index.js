@@ -1,4 +1,5 @@
 module.exports = {
   UrlModel: require('./url'),
-  UserModel: require('./user')
+  UserModel: require('./user'),
+  RoleModel: require('./role')
 }

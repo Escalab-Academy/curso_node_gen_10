@@ -48,3 +48,16 @@ Content-Type: application/json
   "email": "luis.ardila@gmail.com",
   "password": "salkfjsdlakjfldas;jfdlsafiuhewirfh"
 }
+
+### Create role
+POST http://localhost:2000/api/role
+Content-Type: application/json
+
+{
+  "id": "2",
+  "name": "user"
+}
+
+### Get a role
+GET http://localhost:2000/api/role/1
+Content-Type: application/json

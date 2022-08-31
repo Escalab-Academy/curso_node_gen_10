@@ -26,6 +26,11 @@ const UserSchema = new Schema(
     hash: {
       required: true,
       type: String
+    },
+    role: {
+      required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'roles'
     }
   },
   {

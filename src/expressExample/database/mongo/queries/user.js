@@ -9,6 +9,7 @@ const { UserModel } = require('../models')
  * @param {String} user.email
  * @param {String} user.salt
  * @param {String} user.hash
+ * @param {import('mongoose').Schema.Types.ObjectId} user.role
  * @returns A promise that resolves to the saved user
  */
 const saveUser = async user => {
@@ -48,6 +49,7 @@ const removeUserByID = async id => {
   return user
 }
 
+// TODO: update role if necessary
 /**
  * @param {Object} user
  * @param {String} user.id

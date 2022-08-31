@@ -1,3 +1,4 @@
 module.exports = {
-  hash: require('./hash')
+  hash: require('./hash'),
+  role: require('./role')
 }
