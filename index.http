@@ -1,12 +1,13 @@
 ### Get all user
 GET http://localhost:2000/api/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1aXMuYXJkaWxhQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic2Fsa2Zqc2RsYWtqZmxkYXM7amZkbHNhZml1aGV3aXJmaCIsImlhdCI6MTY2MTkwOTI1MCwiZXhwIjoxNjYxOTA5MzcwfQ.yHeS9SzEEgSe_xxXnRs4GwO5Q5cbeZxVGQveOt9yLKg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1aXMuYXJkaWxhQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoic2Fsa2Zqc2RsYWtqZmxkYXM7amZkbHNhZml1aGV3aXJmaCIsImlhdCI6MTY2MjUwOTc2OCwiZXhwIjoxNjYyNTEwMzY4fQ._frbtMMA6hHmHfaxq6boAZNCgw8wEPKSxzZ-E2cgzfY
 
 ### Get one user
-GET http://localhost:2000/api/user/56IMXtKwbHqbi8KCUB9cv
+GET http://localhost:2000/api/user/x5kUjzl8T4TtQ1oE84vOB
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhbGViLnBhcnJhQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiMTIzNDU2O2FiYzsiLCJpYXQiOjE2NjI1MTA1OTYsImV4cCI6MTY2MjUxMTE5Nn0.vlJrz4z9dXghA5CPjKp8-z9pmMvJeZUBfx174bWE2z8
 
 ### Save a new user
-POST http://localhost:2000/api/user/singup
+POST http://localhost:2000/api/user/signup
 Content-Type: application/json
 
 {
@@ -17,7 +18,7 @@ Content-Type: application/json
 }
 
 ### Delete a user by id
-DELETE http://localhost:2000/api/user/y_omIXwPabKD8nwrmD0X_
+DELETE http://localhost:2000/api/user/2XYz-GSfWSzER25w4Fr8l
 
 ### Update a user by id
 PATCH http://localhost:2000/api/user/y_omIXwPabKD8nwrmD0X_
@@ -50,6 +51,15 @@ Content-Type: application/json
   "password": "salkfjsdlakjfldas;jfdlsafiuhewirfh"
 }
 
+### Login
+POST http://localhost:2000/api/user/login
+Content-Type: application/json
+
+{
+  "email": "caleb.parra@gmail.com",
+  "password": "123456;abc;"
+}
+
 ### Create role
 POST http://localhost:2000/api/role
 Content-Type: application/json
@@ -60,5 +70,5 @@ Content-Type: application/json
 }
 
 ### Get a role
-GET http://localhost:2000/api/role/1
+GET http://localhost:2000/api/role/2
 Content-Type: application/json
