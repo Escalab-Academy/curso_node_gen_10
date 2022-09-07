@@ -5,6 +5,49 @@ const { UserService } = require('../../../services')
 
 const NOT_ALLOWED_TO_BE_HERE = 'You are not allowed here!'
 
+/**
+ * @param {String} authorization
+ */
+const getToken = authorization => {
+  if (!authorization) throw new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE)
+
+  const [tokenType, token] = authorization.split(' ')
+
+  if (tokenType !== 'Bearer')
+    throw new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE)
+
+  return token
+}
+
+const validateUserPayload = payload => {
+  const { email, password, iat, exp, ...rest } = payload
+
+  if (!email) throw new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE)
+
+  if (!password) throw new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE)
+
+  if (Object.keys(rest).length !== 0)
+    throw new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE)
+
+  return { email, password }
+}
+
+/**
+ *
+ * @param {Object} error
+ * @param {import('express').NextFunction} next
+ */
+const handleError = (error, next) => {
+  console.error('error', error)
+
+  if (error instanceof jwt.TokenExpiredError)
+    return next(new httpErrors.Unauthorized('Session expired!'))
+
+  if (error instanceof httpErrors.Unauthorized) return next(error)
+
+  return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
+}
+
 const generateTokens = () => {
   return (req, res, next) => {
     const {
@@ -31,27 +74,9 @@ const verifyUser = () => {
       const {
         headers: { authorization }
       } = req
-
-      if (!authorization)
-        return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
-
-      const [tokenType, token] = authorization.split(' ')
-
-      if (tokenType !== 'Bearer')
-        return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
-
+      const token = getToken(authorization)
       const payload = jwt.verify(token, process.env.SECRET)
-      const { email, password, iat, exp, ...rest } = payload
-
-      if (!email)
-        return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
-
-      if (!password)
-        return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
-
-      if (Object.keys(rest).length !== 0)
-        return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
-
+      const { email, password } = validateUserPayload(payload)
       const isLoginCorrect = Boolean(
         await new UserService({ email, password }).login()
       )
@@ -60,11 +85,7 @@ const verifyUser = () => {
 
       return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
     } catch (error) {
-      console.error('error', error)
-      if (error instanceof jwt.TokenExpiredError)
-        return next(new httpErrors.Unauthorized('Session expired!'))
-
-      next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
+      return handleError(error, next)
     }
   }
 }
@@ -76,27 +97,9 @@ const verifyIsCurrentUser = () => {
         params: { id: userId },
         headers: { authorization }
       } = req
-
-      if (!authorization)
-        return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
-
-      const [tokenType, token] = authorization.split(' ')
-
-      if (tokenType !== 'Bearer')
-        return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
-
+      const token = getToken(authorization)
       const payload = jwt.verify(token, process.env.SECRET)
-      const { email, password, iat, exp, ...rest } = payload
-
-      if (!email)
-        return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
-
-      if (!password)
-        return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
-
-      if (Object.keys(rest).length !== 0)
-        return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
-
+      const { email, password } = validateUserPayload(payload)
       const user = await new UserService({ email, password }).login()
       const isLoginCorrect = Boolean(user)
 
@@ -104,11 +107,36 @@ const verifyIsCurrentUser = () => {
 
       return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
     } catch (error) {
-      console.error('error', error)
-      if (error instanceof jwt.TokenExpiredError)
-        return next(new httpErrors.Unauthorized('Session expired!'))
+      return handleError(error, next)
+    }
+  }
+}
 
-      next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE))
+const refreshAccessToken = () => {
+  return async (req, res, next) => {
+    try {
+      const {
+        params: { id: userId },
+        headers: { authorization }
+      } = req
+      const token = getToken(authorization)
+      const payload = jwt.verify(token, process.env.SECRET)
+      const { email, password } = validateUserPayload(payload)
+      const user = await new UserService({ email, password }).login()
+      const isLoginCorrect = Boolean(user)
+
+      if (!(isLoginCorrect && user.id === userId))
+        throw new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE)
+
+      const accessToken = jwt.sign({ email, password }, process.env.SECRET, {
+        expiresIn: '10min'
+      })
+
+      req.accessToken = accessToken
+      req.refreshToken = token
+      next()
+    } catch (error) {
+      return handleError(error, next)
     }
   }
 }
@@ -116,5 +144,6 @@ const verifyIsCurrentUser = () => {
 module.exports = {
   generateTokens,
   verifyUser,
-  verifyIsCurrentUser
+  verifyIsCurrentUser,
+  refreshAccessToken
 }

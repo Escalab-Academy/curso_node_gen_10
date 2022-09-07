@@ -4,7 +4,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1aXMuY
 
 ### Get one user
 GET http://localhost:2000/api/user/x5kUjzl8T4TtQ1oE84vOB
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhbGViLnBhcnJhQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiMTIzNDU2O2FiYzsiLCJpYXQiOjE2NjI1MTA1OTYsImV4cCI6MTY2MjUxMTE5Nn0.vlJrz4z9dXghA5CPjKp8-z9pmMvJeZUBfx174bWE2z8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhbGViLnBhcnJhQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiMTIzNDU2O2FiYzsiLCJpYXQiOjE2NjI1MTM2ODYsImV4cCI6MTY2MjUxNDI4Nn0.EKCJVqBqniIR5XPX11lFJdDV5S2G1_yco4PHDcaK0tM
 
 ### Save a new user
 POST http://localhost:2000/api/user/signup
@@ -72,3 +72,7 @@ Content-Type: application/json
 ### Get a role
 GET http://localhost:2000/api/role/2
 Content-Type: application/json
+
+### Refresh user token
+GET http://localhost:2000/api/user/refreshAccessToken/x5kUjzl8T4TtQ1oE84vOB
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhbGViLnBhcnJhQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiMTIzNDU2O2FiYzsiLCJpYXQiOjE2NjI1MTM2ODYsImV4cCI6MTY2MjUxNzI4Nn0.gpfhczqHiN94Sis8s1icT-lVJJn2b_1cGjOH72ei1R4

@@ -102,26 +102,31 @@ UserRouter.route('/user/:id')
       }
     }
   )
-  .delete(validatorCompiler(userIDSchema, 'params'), async (req, res, next) => {
-    try {
-      const {
-        params: { id }
-      } = req
-      const userService = new UserService({ userId: id })
+  .delete(
+    validatorCompiler(userIDSchema, 'params'),
+    auth.verifyIsCurrentUser(),
+    async (req, res, next) => {
+      try {
+        const {
+          params: { id }
+        } = req
+        const userService = new UserService({ userId: id })
 
-      response({
-        error: false,
-        message: await userService.removeUserByID(),
-        res,
-        status: 200
-      })
-    } catch (error) {
-      next(error)
+        response({
+          error: false,
+          message: await userService.removeUserByID(),
+          res,
+          status: 200
+        })
+      } catch (error) {
+        next(error)
+      }
     }
-  })
+  )
   .patch(
     validatorCompiler(userIDSchema, 'params'),
     validatorCompiler(updateUserSchema, 'body'),
+    auth.verifyIsCurrentUser(),
     async (req, res, next) => {
       const {
         body: { name, lastName, email, password },
@@ -146,5 +151,28 @@ UserRouter.route('/user/:id')
       }
     }
   )
+
+UserRouter.route('/user/refreshAccessToken/:id').get(
+  validatorCompiler(userIDSchema, 'params'),
+  auth.verifyIsCurrentUser(),
+  auth.refreshAccessToken(),
+  async (req, res, next) => {
+    try {
+      const { accessToken, refreshToken } = req
+
+      response({
+        error: false,
+        message: {
+          accessToken,
+          refreshToken
+        },
+        res,
+        status: 200
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+)
 
 module.exports = UserRouter
