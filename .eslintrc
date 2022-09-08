@@ -2,12 +2,14 @@
   "env": {
     "node": true,
     "commonjs": true,
-    "es2021": true
+    "es2021": true,
+    "jest/globals": true
   },
   "root": true,
   "plugins": [
     "import",
-    "prettier"
+    "prettier",
+    "jest"
   ],
   "extends": [
     "standard",
