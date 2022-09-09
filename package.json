@@ -8,7 +8,7 @@
     "express": "nodemon -r dotenv/config src/expressExample/index.js",
     "http": "nodemon -r dotenv/config src/httpExample/index.js",
     "lint": "npx eslint --fix ./src/expressExample",
-    "test": "jest"
+    "test": "jest -i"
   },
   "author": "AnthonyLzq",
   "license": "ISC",
