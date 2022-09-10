@@ -16,6 +16,7 @@
   "author": "AnthonyLzq",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^7.5.0",
     "@types/jest": "^29.0.0",
     "@types/jsonwebtoken": "^8.5.9",
     "axios": "^0.27.2",
