@@ -6,7 +6,7 @@ const {
 } = require('../database')
 const applyRoutes = require('./router')
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || '1996'
 
 class Server {
   #app
@@ -30,7 +30,7 @@ class Server {
     try {
       await this.#connection.connect()
       this.#server = this.#app.listen(PORT, () => {
-        console.log(`Server running at port ${PORT}`)
+        console.log(`Server running at port ${PORT}.`)
       })
     } catch (error) {
       console.error(error)

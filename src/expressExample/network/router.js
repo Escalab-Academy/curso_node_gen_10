@@ -1,12 +1,19 @@
 const httpErrors = require('http-errors')
 
-const { userRouter, urlRouter, roleRouter, response } = require('./routes')
+const {
+  homeRouter,
+  userRouter,
+  urlRouter,
+  roleRouter,
+  response
+} = require('./routes')
 const routers = [userRouter, urlRouter, roleRouter]
 
 /**
  * @param {import('express').Express} app
  */
 const applyRoutes = app => {
+  app.use('/', homeRouter)
   routers.forEach(router => app.use('/api', router))
 
   // Handling 404 error

@@ -22,7 +22,7 @@ const dbConnection = () => {
   }
 
   return {
-    connect: () => connect(process.env.MONGO_URI, connectionConfig),
+    connect: async () => connect(process.env.MONGO_URI, connectionConfig),
     disconnect: () => connection.close()
   }
 }

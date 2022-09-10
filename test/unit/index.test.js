@@ -1,4 +1,4 @@
-const { UserService } = require('../src/expressExample/services')
+const { UserService } = require('../../src/expressExample/services')
 
 const users = []
 const roles = [
@@ -17,7 +17,7 @@ const roles = [
 ]
 const urls = []
 
-jest.mock('../src/expressExample/database/mongo/queries', () => {
+jest.mock('../../src/expressExample/database/mongo/queries', () => {
   return {
     url: {
       saveUrl: jest.fn(async url => urls.push(url)),
@@ -87,7 +87,7 @@ jest.mock('../src/expressExample/database/mongo/queries', () => {
   }
 })
 
-describe('Use cases from UserService', () => {
+describe('Unit test: Use cases from UserService', () => {
   test('Add a user', async () => {
     const user = {
       name: 'Camilo',
