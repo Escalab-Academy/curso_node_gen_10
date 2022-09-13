@@ -1,0 +1,30 @@
+name: E2E tests
+
+on: push
+
+jobs:
+  unit-test:
+    environment: Test
+    name: E2E test for my API
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout git repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Revert changes in the package-lock.json file if they exists
+        run: git restore package-lock.json
+
+      - name: Run e2e tests
+        run: npm run test:e2e:ci
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          SECRET: ${{ secrets.SECRET }}

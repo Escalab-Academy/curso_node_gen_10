@@ -1,11 +1,10 @@
-name: Tests for my API
+name: Unit tests
 
 on: push
 
 jobs:
   unit-test:
-    environment: Test
-    name: Unit test for my API
+    name: Unit tests for my API
     runs-on: ubuntu-latest
 
     steps:
