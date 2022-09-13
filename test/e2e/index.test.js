@@ -38,7 +38,6 @@ describe('E2E test: Use cases from UserService', () => {
     accessToken: '',
     refreshToken: ''
   }
-  const users = []
 
   describe('Testing save user', () => {
     let response = {}
@@ -46,7 +45,6 @@ describe('E2E test: Use cases from UserService', () => {
     test('Should return 201 as status code', async () => {
       response = await axios.post(`${URL}/api/user/signup`, newUser)
       expect(response.status).toBe(201)
-      users.concat(response.data.message)
     })
   })
 
@@ -85,7 +83,7 @@ describe('E2E test: Use cases from UserService', () => {
 /**
  * E commerce
  * ------
- * 1. Registrar un usuario como cliente
+ * 1. Registrar (sign up) un usuario como cliente
  *  1.1. Login del cliente
  * 2. Recargar saldo del cliente
  * 3. Registrar un usuario como vendedor
@@ -94,8 +92,8 @@ describe('E2E test: Use cases from UserService', () => {
  * 5. El cliente intenta comprar el artículo
  *  5.1. El saldo del cliente del insuficiente -> Recarga más saldo
  *  5.2. El saldo es suficiente -> Se genera la compra
- * 6. El saldo pasa a la cuenta del vendedor
- * 7. El artículo pasa a la cuenta del cliente
+ * 6. El saldo pasa de la cuenta del cliente a la cuenta del vendedor
+ * 7. El artículo pasa de la cuenta del vendedor a la cuenta del cliente
  *
  * Nota: las únicas rutas públicas son las rutas de registro
  */
