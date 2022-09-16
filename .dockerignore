@@ -1,0 +1,10 @@
+.eslintrc
+.gitignore
+Dockerfile
+*.http
+README.md
+test
+coverage
+node_modules
+.github
+jest.*

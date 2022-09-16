@@ -6,6 +6,7 @@
   "scripts": {
     "service": "node -r dotenv/config src/index.js",
     "express": "nodemon -r dotenv/config src/expressExample/index.js",
+    "start": "node src/expressExample/index.js",
     "http": "nodemon -r dotenv/config src/httpExample/index.js",
     "lint": "npx eslint --fix ./src/expressExample",
     "test:ci": "NODE_ENV=ci jest --ci -i",
